@@ -1,0 +1,110 @@
+.login-div {
+  background-color: #e59d31;
+  height: 100vh;
+  width: 100%;
+}
+
+.forms-elements {
+  background-color: aliceblue;
+  width: 20rem;
+  height: 20rem;
+}
+
+.justify-center {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 5rem;
+}
+
+.justify-center-only {
+  display: flex;
+  justify-content: center;
+}
+
+#mobile,
+#password {
+  width: 15rem;
+  height: 2rem;
+  margin: 0.3rem;
+  border-radius: 5px;
+  border: none;
+  padding-left: 0.5rem;
+}
+
+.submit-btn {
+  margin-top: 0.3rem;
+  height: 2rem;
+  width: 10rem;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: #ee682f;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 3.5rem;
+  background-color: #e59d31;
+}
+
+.nav-title {
+  color: white;
+}
+
+.fa-home,
+.fa-sign-out-alt {
+  color: white;
+  font-size: 1.7rem;
+  margin: 0 0.5rem;
+}
+
+.menu-div {
+  margin-left: 8rem;
+  margin-top: 2rem;
+  width: 8rem;
+  height: 8rem;
+  background-color: #e59d31;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.menu-div h3 {
+  margin: 0;
+}
+
+.fa-utensils {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 4.5rem;
+}
+
+.menu-btn-div {
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-btn-div a {
+  margin: 0 0.5rem;
+  background-color: #e59d31;
+  height: 2rem;
+  width: 8rem;
+  color: white;
+  border-radius: 4px;
+  border: none;
+}
+
+.menu-btn-div a button {
+  background-color: #e59d31;
+  height: 2rem;
+  width: 8rem;
+  color: white;
+  border-radius: 4px;
+  border: none;
+}
