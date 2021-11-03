@@ -7,6 +7,8 @@ import NotFound from './pages/not-found';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import decodeToken from './lib/decode-token';
+import AddCategory from './pages/category';
+import AddItem from './pages/addItems';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -51,6 +53,10 @@ export default class App extends React.Component {
       return <Auth />;
     } if (path === 'admin-menu') {
       return <AdminMenu />;
+    } if (path === 'category') {
+      return <AddCategory />;
+    } if (path === 'add-item') {
+      return <AddItem />;
     }
     return <NotFound />;
   }
@@ -64,10 +70,7 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={contextValue}>
         <>
-          {/* <Navbar />
-          <PageContainer> */}
             {this.renderPage()}
-          {/* </PageContainer> */}
         </>
       </AppContext.Provider>
     );

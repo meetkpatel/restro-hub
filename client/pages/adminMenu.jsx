@@ -1,7 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
 import Navbar from '../components/navbar';
-import RenderMenu from '../components/renderMenu';
 
 export default class AdminMenu extends React.Component {
   constructor(props) {
@@ -13,7 +11,6 @@ export default class AdminMenu extends React.Component {
   }
 
   componentDidMount() {
-    /* your code here */
     fetch('/api/get/menu')
       .then(res => res.json())
       .then(result => {
@@ -22,17 +19,7 @@ export default class AdminMenu extends React.Component {
   }
 
   render() {
-    // const { user, handleSignOut } = this.context;
-    // const { handleSignOut } = this.context;
-    // fetch('/api/get/menu')
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     console.log('res', result);
-    //     const this.menuFetch = result;
-    //     if (result.user && result.token) {
-    //       this.context.handleSignIn(result);
-    //     }
-    //   });
+
     if (this.state.isLoading) {
       return (<p>loading</p>);
     } else {
@@ -42,8 +29,8 @@ export default class AdminMenu extends React.Component {
     <div className="row">
       <div className="column-full">
         <div className="menu-btn-div">
-          <a href="#check"><button>Add Category</button></a>
-          <a href="#check"><button>Add Items</button></a>
+          <a href="#category"><button>Add Category</button></a>
+          <a href="#add-item"><button>Add Items</button></a>
         </div>
       </div>
     </div>
@@ -58,4 +45,3 @@ export default class AdminMenu extends React.Component {
 
   }
 }
-AdminMenu.contextType = AppContext;

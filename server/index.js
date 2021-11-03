@@ -18,51 +18,45 @@ const app = express();
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 
-app.post('/api/auth/sign-in', (req, res, next) => {
-  const { mobile, password } = req.body;
-  if (!mobile || !password) {
-    throw new ClientError(401, 'invalid login');
-  }
-  const sql = `
-    select *
-      from "users"
-     where "userNumber" = $1
-  `;
-  const params = [mobile];
-  db.query(sql, params)
-    .then(result => {
-      const [user] = result.rows;
-      if (!user) {
-        throw new ClientError(401, 'invalid login');
-      }
-      const { userId, userNumber, userPassword, userRole } = user;
-      return argon2
-        .verify(userPassword, password)
-        .then(isMatching => {
-          if (!isMatching) {
-            throw new ClientError(401, 'invalid login');
-          }
-          const payload = { userId, userNumber, userRole };
-          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-          res.json({ token, user: payload });
-        });
-    })
-    .catch(err => next(err));
-});
-
-app.get('/api/get/menu', (req, res, next) => {
-  const sql = 'select * from "users"';
+app.get('/api/get/category', (req, res, next) => {
+  const sql = 'select * from "category"';
   db.query(sql)
     .then(result => {
       const grade = result.rows;
       res.json(grade);
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({
-        error: 'An unexpected error occurred.'
-      });
-    });
+    .catch(err => next(err));
+});
+app.get('/api/get/menu', (req, res, next) => {
+  const sql = 'select * from "users"';
+  db.query(sql)
+    .then(result => {
+      const menuRow = result.rows;
+      res.json(menuRow);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/add/category', (req, res, next) => {
+  const { addcategory } = req.body;
+  if (!addcategory) {
+    throw new ClientError(401, 'invalid login');
+  }
+  const sql = `
+        insert into "category" ("categoryName")
+        values ($1)
+        returning *
+      `;
+  const params = [addcategory];
+  db.query(sql, params)
+    .then(result => {
+      const [categoryAdded] = result.rows;
+      if (!categoryAdded) {
+        throw new ClientError(401, 'invalid login');
+      }
+      res.json(categoryAdded);
+    })
+    .catch(err => next(err));
 });
 
 app.use(staticMiddleware);

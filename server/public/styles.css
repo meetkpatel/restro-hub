@@ -100,6 +100,16 @@
   border: none;
 }
 
+.add-category-div button {
+  height: 2.5rem;
+  width: 3rem;
+  background-color: #e59d31;
+  color: white;
+  border: none;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
 .menu-btn-div a button {
   background-color: #e59d31;
   height: 2rem;
@@ -107,4 +117,59 @@
   color: white;
   border-radius: 4px;
   border: none;
+}
+
+.add-category-div {
+  padding: 3rem;
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-category-div input {
+  width: 15rem;
+  height: 2.5rem;
+  padding-left: 0.5rem;
+  border: 1px solid lightgray;
+  border-radius: 0.5rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.fa-plus {
+  font-size: 1.5rem;
+}
+
+.categoty-entries-div h3 {
+  margin: 0;
+}
+
+.categoty-entries-div {
+  display: flex;
+  margin: 0, 20%;
+  align-items: center;
+  border: none;
+  height: 4rem;
+  border-radius: 1rem;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+}
+
+/* .categoty-entries-div:nth-child(odd) {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+} */
+
+.categoty-entries-div:nth-child(odd) {
+  background-color: rgb(229 157 49 / 30%);
+}
+
+.category-list-div {
+  width: 70%;
+}
+
+.form-elements {
+  margin-top: 2rem;
+  width: 60%;
 }

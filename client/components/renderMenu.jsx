@@ -9,7 +9,6 @@ function Item(props) {
 }
 
 function RenderMenu(props) {
-  console.log('prop', props);
   return (
     <div>
       {
