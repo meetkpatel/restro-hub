@@ -1,7 +1,6 @@
 import React from 'react';
 import Home from './pages/home';
 import AdminMenu from './pages/adminMenu';
-import Auth from './pages/auth';
 import NotFound from './pages/not-found';
 
 import AppContext from './lib/app-context';
@@ -49,9 +48,7 @@ export default class App extends React.Component {
     if (path === '') {
       return <Home />;
     }
-    if (path === 'sign-in') {
-      return <Auth />;
-    } if (path === 'admin-menu') {
+    if (path === 'admin-menu') {
       return <AdminMenu />;
     } if (path === 'category') {
       return <AddCategory />;

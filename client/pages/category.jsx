@@ -12,10 +12,11 @@ export default class AddCategory extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+
   }
 
   componentDidMount() {
-    /* your code here */
     fetch('/api/get/category')
       .then(res => res.json())
       .then(result => {
@@ -26,6 +27,29 @@ export default class AddCategory extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  }
+
+  handleDeleteClick(event) {
+    const { id } = event.target;
+    for (let i = 0; i < this.state.categoryFetch.length; i++) {
+      if (this.state.categoryFetch[i].categoryId === parseInt(id)) {
+        const newstate = this.state.categoryFetch.slice(0, i).concat(this.state.categoryFetch.slice(i + 1));
+        this.setState({ categoryFetch: newstate });
+      }
+    }
+    event.preventDefault();
+    const req = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: null
+    };
+    fetch(`/api/delete/category/${id}`, req)
+      .then(res => res.json())
+      .then(result => {
+        // this.setState({ categoryFetch: this.state.categoryFetch.concat(result) });
+      });
   }
 
   handleSubmit(event) {
@@ -45,7 +69,7 @@ export default class AddCategory extends React.Component {
   }
 
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, handleDeleteClick } = this;
     if (this.state.isLoading) {
       return (
         <p>loading</p>
@@ -77,7 +101,7 @@ export default class AddCategory extends React.Component {
           <div className="row">
             <div className="column-full justify-center-only">
               <div className="category-list-div">
-                {<ListCategory categoryFetch={this.state.categoryFetch} />}
+                {<ListCategory categoryFetch={this.state.categoryFetch} deleteEntries={handleDeleteClick}/>}
               </div>
             </div>
           </div>

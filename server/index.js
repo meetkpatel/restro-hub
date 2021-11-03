@@ -1,7 +1,5 @@
 require('dotenv/config');
 const pg = require('pg');
-const argon2 = require('argon2');
-const jwt = require('jsonwebtoken');
 const express = require('express');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
@@ -30,6 +28,21 @@ app.get('/api/get/category', (req, res, next) => {
 app.get('/api/get/menu', (req, res, next) => {
   const sql = 'select * from "users"';
   db.query(sql)
+    .then(result => {
+      const menuRow = result.rows;
+      res.json(menuRow);
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/delete/category/:id', (req, res, next) => {
+  const deleteId = parseInt(req.params.id, 10);
+  const sql = `delete from "category"
+              where "categoryId" = $1
+              returning * `;
+  const params = [deleteId];
+
+  db.query(sql, params)
     .then(result => {
       const menuRow = result.rows;
       res.json(menuRow);
