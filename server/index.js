@@ -25,16 +25,6 @@ app.get('/api/get/category', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-app.get('/api/get/menu', (req, res, next) => {
-  const sql = 'select * from "users"';
-  db.query(sql)
-    .then(result => {
-      const menuRow = result.rows;
-      res.json(menuRow);
-    })
-    .catch(err => next(err));
-});
-
 app.delete('/api/delete/category/:id', (req, res, next) => {
   const deleteId = parseInt(req.params.id, 10);
   const sql = `delete from "category"

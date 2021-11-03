@@ -31,12 +31,6 @@ export default class AddCategory extends React.Component {
 
   handleDeleteClick(event) {
     const { id } = event.target;
-    for (let i = 0; i < this.state.categoryFetch.length; i++) {
-      if (this.state.categoryFetch[i].categoryId === parseInt(id)) {
-        const newstate = this.state.categoryFetch.slice(0, i).concat(this.state.categoryFetch.slice(i + 1));
-        this.setState({ categoryFetch: newstate });
-      }
-    }
     event.preventDefault();
     const req = {
       method: 'DELETE',
@@ -48,8 +42,13 @@ export default class AddCategory extends React.Component {
     fetch(`/api/delete/category/${id}`, req)
       .then(res => res.json())
       .then(result => {
-        // this.setState({ categoryFetch: this.state.categoryFetch.concat(result) });
       });
+    for (let i = 0; i < this.state.categoryFetch.length; i++) {
+      if (this.state.categoryFetch[i].categoryId === parseInt(id)) {
+        const newstate = this.state.categoryFetch.slice(0, i).concat(this.state.categoryFetch.slice(i + 1));
+        this.setState({ categoryFetch: newstate });
+      }
+    }
   }
 
   handleSubmit(event) {

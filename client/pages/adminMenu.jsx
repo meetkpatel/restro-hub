@@ -15,7 +15,8 @@ export default class AdminMenu extends React.Component {
       </div>
     </div>
     <div className="row">
-      <div className="column-full">
+          <div className="column-full text-center">
+        <p>No data yet</p>
       </div>
     </div>
   </>
