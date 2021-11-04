@@ -10,6 +10,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  font-family: Montserrat, sans-serif;
+}
+
 .justify-center {
   display: flex;
   justify-content: center;
@@ -147,4 +151,68 @@ a {
 
 .text-center {
   text-align: center;
+}
+
+.form-elements {
+  margin-top: 2rem;
+  width: 60%;
+}
+
+.form-elements img {
+  width: 90%;
+  height: 23rem;
+  border-radius: 1rem;
+  margin-left: 5%;
+}
+
+.custom-input {
+  margin-top: 1rem;
+  width: 80%;
+  height: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid lightgray;
+  padding-left: 1rem;
+}
+
+.img-upload {
+  height: 2rem;
+  width: 20%;
+}
+
+input[type="file"]::file-selector-button {
+  border: none;
+  background-color: #e59d31;
+  color: white;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-left: 10%;
+  padding: 0.2em 0.4em;
+  margin-bottom: 1rem;
+}
+
+.desc {
+  margin-top: 1rem;
+  width: 90%;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.btn-add-item {
+  width: 8rem;
+  height: 2rem;
+  color: white;
+  background-color: #e59d31;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-right: 5rem;
+}
+
+.justify-end {
+  display: flex;
+  justify-content: flex-end;
 }

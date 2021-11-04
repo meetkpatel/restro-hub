@@ -41,7 +41,7 @@ CREATE TABLE "public"."category" (
 
 
 CREATE TABLE "public"."ordersItems" (
-	"orderId" interval NOT NULL,
+	"orderId" integer NOT NULL,
 	"itemid" integer NOT NULL,
 	"quantity" integer NOT NULL
 ) WITH (
@@ -56,12 +56,11 @@ CREATE TABLE "public"."items" (
 	"itemDescription" TEXT NOT NULL,
 	"itemPrice" TEXT NOT NULL,
 	"categoryId" integer NOT NULL,
+  "itemImg" TEXT NOT NULL,
 	CONSTRAINT "items_pk" PRIMARY KEY ("itemId")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "public"."orders" (
 	"orderId" serial NOT NULL,

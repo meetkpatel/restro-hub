@@ -11,6 +11,7 @@ export default class AdminMenu extends React.Component {
       <div className="column-full">
         <div className="menu-btn-div">
           <a href="#category"><button>Add Category</button></a>
+          <a href="#add-item"><button>Add Items</button></a>
         </div>
       </div>
     </div>
