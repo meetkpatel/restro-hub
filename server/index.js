@@ -4,6 +4,7 @@ const express = require('express');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
+const uploadsMiddleware = require('./uploads-middleware');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -42,9 +43,7 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
 
 app.post('/api/add/category', (req, res, next) => {
   const { addcategory } = req.body;
-  if (!addcategory) {
-    throw new ClientError(401, 'invalid login');
-  }
+
   const sql = `
         insert into "category" ("categoryName")
         values ($1)
@@ -58,6 +57,24 @@ app.post('/api/add/category', (req, res, next) => {
         throw new ClientError(401, 'invalid login');
       }
       res.json(categoryAdded);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/add/fooditem', uploadsMiddleware, (req, res, next) => {
+  const { categoryselect, itemName, itemPrice, itemDesc } = req.body;
+  const catid = parseInt(categoryselect);
+  const url = '/images' + '/' + req.file.filename;
+  const sql = `
+    insert into "items" ("itemName", "itemDescription","itemPrice","categoryId","itemImg")
+    values ($1, $2, $3, $4, $5)
+    returning *
+  `;
+  const params = [itemName, itemDesc, itemPrice, catid, url];
+  db.query(sql, params)
+    .then(result => {
+      const [data] = result.rows;
+      res.status(201).json(data);
     })
     .catch(err => next(err));
 });
