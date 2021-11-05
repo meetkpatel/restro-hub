@@ -79,6 +79,26 @@ app.post('/api/add/fooditem', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/get/menu', (req, res, next) => {
+  const sql = `with "itemsWithCategory" as (
+  SELECT * FROM "category"
+  JOIN "items" USING ("categoryId") )
+  SELECT "categoryName", "categoryId", JSON_AGG("itemsWithCategory".*) as "items"
+  FROM "itemsWithCategory"
+  group by "categoryName","categoryId"`;
+  db.query(sql)
+    .then(result => {
+      const menuRow = result.rows;
+      res.json(menuRow);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred.'
+      });
+    });
+});
+
 app.use(staticMiddleware);
 
 app.use(errorMiddleware);

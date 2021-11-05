@@ -216,3 +216,45 @@ input[type="file"]::file-selector-button {
   display: flex;
   justify-content: flex-end;
 }
+
+.food-item-div {
+  display: flex;
+  background-color: lightgray;
+  border: none;
+  border-radius: 0.5rem;
+  padding-left: 0;
+  margin: 0.5rem 0;
+}
+
+.food-item-div img {
+  height: 130px;
+  width: 120px;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.margin-half-rem {
+  margin: 0 0.5rem;
+}
+
+.item-price-div {
+  width: 100%;
+}
+
+.name-price-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.width-full {
+  width: 100%;
+}
+
+.price-span {
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(229 157 49 / 70%);
+  margin-right: 0.5rem;
+}

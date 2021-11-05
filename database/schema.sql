@@ -11,6 +11,7 @@ CREATE TABLE "public"."users" (
 	"userNumber" TEXT NOT NULL UNIQUE,
 	"userPassword" TEXT NOT NULL,
 	"userRole" TEXT NOT NULL,
+  "isTableAllocated" BOOLEAN NOT NULL DEFAULT 'false',
 	"createdAt" timestamptz(6) NOT NULL default now(),
 	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
