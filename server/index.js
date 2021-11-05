@@ -6,6 +6,10 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 
+function randomPassword() {
+  return Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
+}
+
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -19,6 +23,15 @@ app.use(jsonMiddleware);
 
 app.get('/api/get/category', (req, res, next) => {
   const sql = 'select * from "category"';
+  db.query(sql)
+    .then(result => {
+      const grade = result.rows;
+      res.json(grade);
+    })
+    .catch(err => next(err));
+});
+app.get('/api/get/waitlist', (req, res, next) => {
+  const sql = 'select * from "waitlist"';
   db.query(sql)
     .then(result => {
       const grade = result.rows;
@@ -43,7 +56,6 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
 
 app.post('/api/add/category', (req, res, next) => {
   const { addcategory } = req.body;
-
   const sql = `
         insert into "category" ("categoryName")
         values ($1)
@@ -57,6 +69,30 @@ app.post('/api/add/category', (req, res, next) => {
         throw new ClientError(401, 'invalid login');
       }
       res.json(categoryAdded);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/add/waitlist', (req, res, next) => {
+  const { addcustname, addcustmobile } = req.body;
+  const password = parseInt(randomPassword());
+  const sql = `with "newUser" as (
+      insert into "users" ("userName","userNumber","userPassword","userRole")
+      values($1,$2,$3,$4)
+      returning "userId"
+      )
+      insert into "waitlist" ("userName","userNumber","userId")
+      values ($1,$2,(select "userId" from "newUser"))
+      returning *
+      `;
+  const params = [addcustname, addcustmobile, password, 'Customer'];
+  db.query(sql, params)
+    .then(result => {
+      const [customerAdded] = result.rows;
+      if (!customerAdded) {
+        throw new ClientError(401, 'mobile number is already used');
+      }
+      res.json(customerAdded);
     })
     .catch(err => next(err));
 });

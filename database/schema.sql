@@ -11,7 +11,6 @@ CREATE TABLE "public"."users" (
 	"userNumber" TEXT NOT NULL UNIQUE,
 	"userPassword" TEXT NOT NULL,
 	"userRole" TEXT NOT NULL,
-  "isTableAllocated" BOOLEAN NOT NULL DEFAULT 'false',
 	"createdAt" timestamptz(6) NOT NULL default now(),
 	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
@@ -23,7 +22,7 @@ CREATE TABLE "public"."users" (
 CREATE TABLE "public"."tables" (
 	"tableId" serial NOT NULL,
 	"tableNumber" integer NOT NULL,
-	"customerId" integer NOT NULL,
+	"userId" integer NOT NULL,
 	CONSTRAINT "tables_pk" PRIMARY KEY ("tableId")
 ) WITH (
   OIDS=FALSE
@@ -73,10 +72,28 @@ CREATE TABLE "public"."orders" (
   OIDS=FALSE
 );
 
+CREATE TABLE "public"."waitlist" (
+	"userId" integer NOT NULL,
+	"userName" TEXT NOT NULL,
+	"userNumber" TEXT NOT NULL
+) WITH (
+  OIDS=FALSE
+);
 
 
 
-ALTER TABLE "tables" ADD CONSTRAINT "tables_fk0" FOREIGN KEY ("customerId") REFERENCES "users"("userId");
+CREATE TABLE "public"."cart" (
+	"userId" integer NOT NULL,
+	"itemId" integer NOT NULL,
+	"itemQty" integer NOT NULL
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+
+ALTER TABLE "tables" ADD CONSTRAINT "tables_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 
 
 ALTER TABLE "ordersItems" ADD CONSTRAINT "ordersItems_fk0" FOREIGN KEY ("orderId") REFERENCES "orders"("orderId");
@@ -85,3 +102,8 @@ ALTER TABLE "ordersItems" ADD CONSTRAINT "ordersItems_fk1" FOREIGN KEY ("itemid"
 ALTER TABLE "items" ADD CONSTRAINT "items_fk0" FOREIGN KEY ("categoryId") REFERENCES "category"("categoryId");
 
 ALTER TABLE "orders" ADD CONSTRAINT "orders_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
+
+ALTER TABLE "waitlist" ADD CONSTRAINT "waitlist_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
+
+ALTER TABLE "cart" ADD CONSTRAINT "cart_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
+ALTER TABLE "cart" ADD CONSTRAINT "cart_fk1" FOREIGN KEY ("itemId") REFERENCES "items"("itemId");
