@@ -260,4 +260,5 @@ input[type="file"]::file-selector-button {
   padding: 0.3rem 0.5rem;
   border-radius: 0.5rem;
   background-color: rgb(229 157 49 / 70%);
+  margin-right: 0.5rem;
 }
