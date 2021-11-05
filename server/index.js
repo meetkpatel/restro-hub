@@ -81,10 +81,11 @@ app.post('/api/add/fooditem', uploadsMiddleware, (req, res, next) => {
 
 app.get('/api/get/menu', (req, res, next) => {
   const sql = `with "itemsWithCategory" as (
-  select *
-  from "category"
-  join "items" using ("categoryId") )
-  SELECT "categoryName", "categoryId", JSON_AGG("itemsWithCategory".*) FROM "itemsWithCategory" group by "categoryName","categoryId"`;
+  SELECT * FROM "category"
+  JOIN "items" USING ("categoryId") )
+  SELECT "categoryName", "categoryId", JSON_AGG("itemsWithCategory".*) as "items"
+  FROM "itemsWithCategory"
+  group by "categoryName","categoryId"`;
   db.query(sql)
     .then(result => {
       const menuRow = result.rows;

@@ -234,10 +234,6 @@ input[type="file"]::file-selector-button {
   margin-right: 0.5rem;
 }
 
-.inside-food-div {
-  /* display: block; */
-}
-
 .margin-half-rem {
   margin: 0 0.5rem;
 }

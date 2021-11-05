@@ -26,7 +26,7 @@ function Cate(props) {
       <h1>{props.item.categoryName}</h1>
       <div className="row">
       {
-        props.item.json_agg.map((item, index) => {
+        props.item.items.map((item, index) => {
           return <Item key={index} item={item} />;
         })
       }
