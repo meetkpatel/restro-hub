@@ -8,6 +8,7 @@ import parseRoute from './lib/parse-route';
 import decodeToken from './lib/decode-token';
 import AddCategory from './pages/category';
 import AddItem from './pages/addItems';
+import Waitlist from './pages/waitList';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -54,6 +55,8 @@ export default class App extends React.Component {
       return <AddCategory />;
     } if (path === 'add-item') {
       return <AddItem />;
+    } if (path === 'waitlist') {
+      return <Waitlist />;
     }
     return <NotFound />;
   }
