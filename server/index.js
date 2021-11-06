@@ -25,8 +25,8 @@ app.get('/api/get/category', (req, res, next) => {
   const sql = 'select * from "category"';
   db.query(sql)
     .then(result => {
-      const grade = result.rows;
-      res.json(grade);
+      const cateResult = result.rows;
+      res.json(cateResult);
     })
     .catch(err => next(err));
 });
@@ -34,8 +34,8 @@ app.get('/api/get/waitlist', (req, res, next) => {
   const sql = 'select * from "waitlist"';
   db.query(sql)
     .then(result => {
-      const grade = result.rows;
-      res.json(grade);
+      const waitListResult = result.rows;
+      res.json(waitListResult);
     })
     .catch(err => next(err));
 });
@@ -75,8 +75,19 @@ app.post('/api/add/category', (req, res, next) => {
 
 app.post('/api/add/waitlist', (req, res, next) => {
   const { addcustname, addcustmobile } = req.body;
-  const password = parseInt(randomPassword());
-  const sql = `with "newUser" as (
+  const sql = `
+      select * from "waitlist"
+      where "userNumber" = $1
+      `;
+  const params = [addcustmobile];
+  db.query(sql, params)
+    .then(result => {
+      const [fetchResult] = result.rows;
+      if (fetchResult) {
+        throw new ClientError(403, 'Already exists');
+      }
+      const password = parseInt(randomPassword());
+      const sql = `with "newUser" as (
       insert into "users" ("userName","userNumber","userPassword","userRole")
       values($1,$2,$3,$4)
       returning "userId"
@@ -85,14 +96,16 @@ app.post('/api/add/waitlist', (req, res, next) => {
       values ($1,$2,(select "userId" from "newUser"))
       returning *
       `;
-  const params = [addcustname, addcustmobile, password, 'Customer'];
-  db.query(sql, params)
-    .then(result => {
-      const [customerAdded] = result.rows;
-      if (!customerAdded) {
-        throw new ClientError(401, 'mobile number is already used');
-      }
-      res.json(customerAdded);
+      const params = [addcustname, addcustmobile, password, 'Customer'];
+      db.query(sql, params)
+        .then(result => {
+          const [customerAdded] = result.rows;
+          if (!customerAdded) {
+            throw new ClientError(401, 'mobile number is already used');
+          }
+          res.json(customerAdded);
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });

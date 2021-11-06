@@ -12,8 +12,7 @@ export default class AddCategory extends React.Component {
       addcustmobile: ''
 
     };
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleMobileChange = this.handleMobileChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -25,12 +24,7 @@ export default class AddCategory extends React.Component {
       });
   }
 
-  handleNameChange(event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
-
-  handleMobileChange(event) {
+  handleInputChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
@@ -47,16 +41,13 @@ export default class AddCategory extends React.Component {
     fetch('/api/add/waitlist', req)
       .then(res => res.json())
       .then(result => {
-        this.setState({ waitListFetch: this.state.waitListFetch.concat(result) });
-        this.setState({ addcustname: '' });
-        this.setState({ addcustmobile: '' });
-
+        this.setState({ waitListFetch: this.state.waitListFetch.concat(result), addcustname: '', addcustmobile: '' });
       });
 
   }
 
   render() {
-    const { handleNameChange, handleMobileChange, handleSubmit } = this;
+    const { handleInputChange, handleSubmit } = this;
     if (this.state.isLoading) {
       return (
         <p>loading</p>
@@ -76,7 +67,7 @@ export default class AddCategory extends React.Component {
                       type="text"
                       name="addcustname"
                       placeholder="Add Customer Name"
-                      onChange={handleNameChange}
+                      onChange={handleInputChange}
                       value={this.state.addcustname}
                       className="form-control bg-light" />
                 </div>
@@ -88,7 +79,7 @@ export default class AddCategory extends React.Component {
                       type="text"
                       name="addcustmobile"
                       placeholder="Add Customer Mobile Number"
-                    onChange={handleMobileChange}
+                    onChange={handleInputChange}
                     value={this.state.addcustmobile}
                       className="form-control bg-light" />
                 </div>
