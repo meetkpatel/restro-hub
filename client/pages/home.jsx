@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../components/navbar';
 import AdminHome from '../components/adminHome';
+import CustHome from '../components/custHome';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
 
@@ -9,10 +9,15 @@ export default class Home extends React.Component {
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
+    if (this.context.user.userRole === 'Admin') {
+      return <AdminHome />;
+    }
+    if (this.context.user.userRole === 'Customer') {
+      return <CustHome />;
+    }
     return (
       <>
-        <Navbar title={'Home'}/>
-        <AdminHome />
+        {this.renderPage()}
       </>
     );
   }

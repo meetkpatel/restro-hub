@@ -25,6 +25,9 @@ export default class AdminMenu extends React.Component {
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
+    if (this.context.user.userRole === 'Customer') {
+      return <Redirect to="no-access" />;
+    }
     if (this.state.isLoading) {
       return (<p>loading</p>);
     } else {

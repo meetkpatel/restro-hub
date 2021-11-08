@@ -52,6 +52,9 @@ export default class Waitlist extends React.Component {
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
+    if (this.context.user.userRole === 'Customer') {
+      return <Redirect to="no-access" />;
+    }
     const { handleInputChange, handleSubmit } = this;
     if (this.state.isLoading) {
       return (

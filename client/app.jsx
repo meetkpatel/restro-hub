@@ -10,6 +10,7 @@ import AddCategory from './pages/category';
 import AddItem from './pages/addItems';
 import Waitlist from './pages/waitList';
 import AuthPage from './pages/auth';
+import NoAccess from './pages/noaccess';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -51,6 +52,8 @@ export default class App extends React.Component {
       return <Home />;
     } if (path === 'sign-in') {
       return <AuthPage />;
+    } if (path === 'no-access') {
+      return <NoAccess />;
     }
     if (path === 'admin-menu') {
       return <AdminMenu />;
