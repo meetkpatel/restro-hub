@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import ListWaitList from '../components/listWaitlist';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import NotFound from './not-found';
 
 export default class Waitlist extends React.Component {
   constructor(props) {
@@ -51,6 +52,9 @@ export default class Waitlist extends React.Component {
   render() {
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
+    }
+    if (this.context.user.userRole === 'Customer') {
+      return <NotFound/>;
     }
     const { handleInputChange, handleSubmit } = this;
     if (this.state.isLoading) {

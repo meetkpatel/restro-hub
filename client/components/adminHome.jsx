@@ -1,9 +1,12 @@
 import React from 'react';
+import Navbar from '../components/navbar';
 
 export default class AdminHome extends React.Component {
 
   render() {
     return (
+      <>
+      <Navbar title={'Home'}/>
       <div className="row">
         <div className="column-full home-flex ">
           <div className="menu-div">
@@ -20,6 +23,7 @@ export default class AdminHome extends React.Component {
             </div>
         </div>
       </div>
+      </>
     );
   }
 }

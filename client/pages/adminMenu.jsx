@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import RenderMenu from '../components/renderMenu';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import NotFound from './not-found';
 
 export default class AdminMenu extends React.Component {
   constructor(props) {
@@ -24,6 +25,9 @@ export default class AdminMenu extends React.Component {
   render() {
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
+    }
+    if (this.context.user.userRole === 'Customer') {
+      return <NotFound />;
     }
     if (this.state.isLoading) {
       return (<p>loading</p>);
