@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import RenderMenu from '../components/renderMenu';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class AdminMenu extends React.Component {
   constructor(props) {
@@ -20,7 +22,9 @@ export default class AdminMenu extends React.Component {
   }
 
   render() {
-
+    if (!this.context.user) {
+      return <Redirect to="sign-in" />;
+    }
     if (this.state.isLoading) {
       return (<p>loading</p>);
     } else {
@@ -46,3 +50,4 @@ export default class AdminMenu extends React.Component {
 
   }
 }
+AdminMenu.contextType = AppContext;
