@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import ListCategory from '../components/listCategory';
 import AppContext from '../lib/app-context';
 import Redirect from '../components/redirect';
+import NotFound from './not-found';
 
 export default class AddCategory extends React.Component {
   constructor(props) {
@@ -74,7 +75,7 @@ export default class AddCategory extends React.Component {
       return <Redirect to="sign-in" />;
     }
     if (this.context.user.userRole === 'Customer') {
-      return <Redirect to="no-access" />;
+      return <NotFound />;
     }
     const { handleChange, handleSubmit, handleDeleteClick } = this;
     if (this.state.isLoading) {

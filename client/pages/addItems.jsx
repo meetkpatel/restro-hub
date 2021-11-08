@@ -3,6 +3,7 @@ import AppContext from '../lib/app-context';
 import Navbar from '../components/navbar';
 import ListCategoryDropDown from '../components/listCategoryDropDown';
 import Redirect from '../components/redirect';
+import NotFound from './not-found';
 
 export default class AddItem extends React.Component {
   constructor(props) {
@@ -83,7 +84,7 @@ export default class AddItem extends React.Component {
       return <Redirect to="sign-in" />;
     }
     if (this.context.user.userRole === 'Customer') {
-      return <Redirect to="no-access" />;
+      return <NotFound />;
     }
     const { handleImgChange, handleCateChange, handleItemNameChange, handlePriceChange, handleDescChange, handleSubmit } = this;
     if (this.state.isLoading) {
