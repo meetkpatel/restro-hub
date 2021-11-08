@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import ListCategory from '../components/listCategory';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
 export default class AddCategory extends React.Component {
   constructor(props) {
@@ -68,6 +70,9 @@ export default class AddCategory extends React.Component {
   }
 
   render() {
+    if (!this.context.user) {
+      return <Redirect to="sign-in" />;
+    }
     const { handleChange, handleSubmit, handleDeleteClick } = this;
     if (this.state.isLoading) {
       return (
@@ -110,3 +115,4 @@ export default class AddCategory extends React.Component {
 
   }
 }
+AddCategory.contextType = AppContext;

@@ -1,8 +1,10 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import ListWaitList from '../components/listWaitlist';
+import AppContext from '../lib/app-context';
+import Redirect from '../components/redirect';
 
-export default class AddCategory extends React.Component {
+export default class Waitlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,6 +49,9 @@ export default class AddCategory extends React.Component {
   }
 
   render() {
+    if (!this.context.user) {
+      return <Redirect to="sign-in" />;
+    }
     const { handleInputChange, handleSubmit } = this;
     if (this.state.isLoading) {
       return (
@@ -104,3 +109,4 @@ export default class AddCategory extends React.Component {
 
   }
 }
+Waitlist.contextType = AppContext;

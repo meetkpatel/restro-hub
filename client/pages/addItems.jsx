@@ -1,8 +1,8 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
 import Navbar from '../components/navbar';
-import Redirect from '../components/redirect';
 import ListCategoryDropDown from '../components/listCategoryDropDown';
+import Redirect from '../components/redirect';
 
 export default class AddItem extends React.Component {
   constructor(props) {
@@ -79,6 +79,9 @@ export default class AddItem extends React.Component {
   }
 
   render() {
+    if (!this.context.user) {
+      return <Redirect to="sign-in" />;
+    }
     const { handleImgChange, handleCateChange, handleItemNameChange, handlePriceChange, handleDescChange, handleSubmit } = this;
     if (this.state.isLoading) {
       return (
