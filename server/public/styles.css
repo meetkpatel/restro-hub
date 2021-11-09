@@ -294,6 +294,10 @@ input[type="file"]::file-selector-button {
   border-radius: 0.5rem;
 }
 
+.wait-i {
+  color: black;
+}
+
 .login-div {
   background-color: #e59d31;
   height: 100vh;
@@ -324,4 +328,85 @@ input[type="file"]::file-selector-button {
   border: none;
   color: white;
   background-color: #ee682f;
+}
+
+.tables-div {
+  width: 80%;
+}
+
+.tables-row-div {
+  margin-top: 2.5rem;
+  justify-content: center;
+}
+
+.inside-table {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  width: 7rem;
+  background-color: green;
+  border-radius: 5px;
+  margin: 1rem;
+  color: white;
+  font-size: 1.8rem;
+}
+
+.table-red {
+  background-color: #df5025;
+  box-shadow: 0 0 12px 2px #919191;
+}
+
+.table-green {
+  background-color: #35b852;
+  box-shadow: 0 0 12px 2px #919191;
+}
+
+.free-table-modal-div,
+.assign-table-modal-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgb(0 0 0 / 70%);
+}
+
+.free-table-content-div,
+.assign-table-content-div {
+  height: 8rem;
+  width: 32rem;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.free-table-row-btn,
+.assign-table-row-btn {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3rem;
+}
+
+.red-btn {
+  height: 2rem;
+  width: 8rem;
+  background-color: #df5025;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+.green-btn {
+  height: 2rem;
+  width: 8rem;
+  background-color: #35b852;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: bold;
 }

@@ -10,6 +10,7 @@ import AddCategory from './pages/category';
 import AddItem from './pages/addItems';
 import Waitlist from './pages/waitList';
 import AuthPage from './pages/auth';
+import Tables from './pages/tables';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ export default class App extends React.Component {
   }
 
   renderPage() {
-    const { path } = this.state.route;
+    const { path, params } = this.state.route;
     if (path === '') {
       return <Home />;
     } if (path === 'sign-in') {
@@ -60,6 +61,9 @@ export default class App extends React.Component {
       return <AddItem />;
     } if (path === 'waitlist') {
       return <Waitlist />;
+    } if (path === 'tables') {
+      const userId = params.get('userId');
+      return <Tables userId={userId} />;
     }
     return <NotFound />;
   }
