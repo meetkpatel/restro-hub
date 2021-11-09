@@ -85,7 +85,7 @@ app.get('/api/get/tables', (req, res, next) => {
     });
 });
 
-app.put('/api/put/table/:id', (req, res, next) => {
+app.put('/api/table/:id', (req, res, next) => {
   const tableNumber = parseInt(req.params.id, 10);
   const sql = `update "tables"
       set     "userId" = $1
@@ -94,27 +94,27 @@ app.put('/api/put/table/:id', (req, res, next) => {
   const params = [null, tableNumber];
   db.query(sql, params)
     .then(result => {
-      const updatedRow = result.rows;
+      const updatedRow = result.rows[0];
       res.json(updatedRow);
     })
     .catch(err => next(err));
 });
 
-app.put('/api/put/table-assign/:id', (req, res, next) => {
+app.put('/api/table-assign/:id', (req, res, next) => {
   const tableNumberfetch = parseInt(req.params.id, 10);
   const { custId } = req.body;
-  const sql = `with "newCustomer" as (
-      update "tables" set "userId" = $1
-      where "tableNumber" = $2
+  const sql = `with "delCustomer" as (
+      delete from "waitlist"
+      where "userId" = $1
       returning "userId"
       )
-      delete from "waitlist"
-      where "userId" = (select "userId" from "newCustomer")
+      update "tables" set "userId" = (select "userId" from "delCustomer")
+      where "tableNumber" = $2
       returning *`;
   const params = [custId, tableNumberfetch];
   db.query(sql, params)
     .then(result => {
-      const updatedRow = result.rows;
+      const updatedRow = result.rows[0];
       res.json(updatedRow);
     })
     .catch(err => next(err));
@@ -191,10 +191,7 @@ app.post('/api/add/waitlist', (req, res, next) => {
             })
             .catch(err => next(err));
         })
-        .catch(err => {
-          console.error(err);
-        });
-
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });

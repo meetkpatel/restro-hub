@@ -28,8 +28,8 @@ function ListTables(props) {
       <div className="tables-div">
         <div className="row">
       {
-        props.tablesFetch.map(item => {
-          return <Item key={item.tableId} item={item} freeTable={freeTable} assignTable={assignTable}/>;
+        props.tablesFetch.map((item, index) => {
+          return <Item key={index} item={item} freeTable={freeTable} assignTable={assignTable}/>;
         })
       }
           </div>
