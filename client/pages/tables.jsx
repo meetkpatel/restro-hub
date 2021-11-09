@@ -60,14 +60,6 @@ export default class Tables extends React.Component {
         });
         this.setState({ tablesFetch: newTables, openModal: null, tableSelected: null });
       });
-    // for (let i = 0; i < this.state.tablesFetch.length; i++) {
-    //   if (this.state.tablesFetch[i].tableNumber === parseInt(this.state.tableSelected)) {
-    //     const newdata = this.state.tablesFetch.slice(i, i + 1);
-    //     (event.target.name === 'free') ? newdata[0].userId = null : newdata[0].userId = this.props.userId;
-    //     const newstate = this.state.tablesFetch.slice(0, i).concat(newdata[0]).concat(this.state.tablesFetch.slice(i + 1));
-    //     this.setState({ tablesFetch: newstate, openModal: null, tableSelected: null });
-    //   }
-    // }
   }
 
   render() {
