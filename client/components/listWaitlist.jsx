@@ -5,6 +5,9 @@ function Item(props) {
   return (
     <div className="categoty-entries-div">
       <h3>{props.item.userName}</h3>
+      <a href={`#tables?userId=${props.item.userId}`}>
+        <i className="fas fa-utensils wait-i"></i>
+      </a>
     </div>
   );
 }

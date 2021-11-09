@@ -64,6 +64,7 @@ app.get('/api/get/category', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
 app.get('/api/get/waitlist', (req, res, next) => {
   const sql = 'select * from "waitlist"';
   db.query(sql)
@@ -73,6 +74,52 @@ app.get('/api/get/waitlist', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+app.get('/api/get/tables', (req, res, next) => {
+  const sql = `select * from "tables"
+              order by "tableNumber" asc`;
+  db.query(sql)
+    .then(result => {
+      const tableListResult = result.rows;
+      res.json(tableListResult);
+    });
+});
+
+app.put('/api/put/table/:id', (req, res, next) => {
+  const tableNumber = parseInt(req.params.id, 10);
+  const sql = `update "tables"
+      set     "userId" = $1
+      where   "tableNumber" = $2
+      returning *`;
+  const params = [null, tableNumber];
+  db.query(sql, params)
+    .then(result => {
+      const updatedRow = result.rows;
+      res.json(updatedRow);
+    })
+    .catch(err => next(err));
+});
+
+app.put('/api/put/table-assign/:id', (req, res, next) => {
+  const tableNumberfetch = parseInt(req.params.id, 10);
+  const { custId } = req.body;
+  const sql = `with "newCustomer" as (
+      update "tables" set "userId" = $1
+      where "tableNumber" = $2
+      returning "userId"
+      )
+      delete from "waitlist"
+      where "userId" = (select "userId" from "newCustomer")
+      returning *`;
+  const params = [custId, tableNumberfetch];
+  db.query(sql, params)
+    .then(result => {
+      const updatedRow = result.rows;
+      res.json(updatedRow);
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/delete/category/:id', (req, res, next) => {
   const deleteId = parseInt(req.params.id, 10);
   const sql = `delete from "category"
@@ -120,8 +167,11 @@ app.post('/api/add/waitlist', (req, res, next) => {
       if (fetchResult) {
         throw new ClientError(403, 'Already exists');
       }
-      const password = parseInt(randomPassword());
-      const sql = `with "newUser" as (
+      const password = String(randomPassword());
+      argon2
+        .hash(password)
+        .then(hashedPassword => {
+          const sql = `with "newUser" as (
       insert into "users" ("userName","userNumber","userPassword","userRole")
       values($1,$2,$3,$4)
       returning "userId"
@@ -130,16 +180,21 @@ app.post('/api/add/waitlist', (req, res, next) => {
       values ($1,$2,(select "userId" from "newUser"))
       returning *
       `;
-      const params = [addcustname, addcustmobile, password, 'Customer'];
-      db.query(sql, params)
-        .then(result => {
-          const [customerAdded] = result.rows;
-          if (!customerAdded) {
-            throw new ClientError(401, 'mobile number is already used');
-          }
-          res.json(customerAdded);
+          const params = [addcustname, addcustmobile, hashedPassword, 'Customer'];
+          db.query(sql, params)
+            .then(result => {
+              const [customerAdded] = result.rows;
+              if (!customerAdded) {
+                throw new ClientError(401, 'mobile number is already used');
+              }
+              res.json(customerAdded);
+            })
+            .catch(err => next(err));
         })
-        .catch(err => next(err));
+        .catch(err => {
+          console.error(err);
+        });
+
     })
     .catch(err => next(err));
 });

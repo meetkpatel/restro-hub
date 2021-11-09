@@ -22,7 +22,7 @@ CREATE TABLE "public"."users" (
 CREATE TABLE "public"."tables" (
 	"tableId" serial NOT NULL,
 	"tableNumber" integer NOT NULL,
-	"userId" integer NOT NULL,
+	"userId" integer,
 	CONSTRAINT "tables_pk" PRIMARY KEY ("tableId")
 ) WITH (
   OIDS=FALSE
