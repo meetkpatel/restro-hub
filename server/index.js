@@ -146,10 +146,23 @@ app.post('/api/add/category', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const [categoryAdded] = result.rows;
-      if (!categoryAdded) {
-        throw new ClientError(401, 'invalid login');
-      }
       res.json(categoryAdded);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/add-item', (req, res, next) => {
+  const { userId, itemId, itemQty } = req.body;
+  const sql = `
+        insert into "cart" ("userId","itemId","itemQty")
+        values ($1,$2,$3)
+        returning *
+      `;
+  const params = [userId, itemId, itemQty];
+  db.query(sql, params)
+    .then(result => {
+      const [itenAdded] = result.rows;
+      res.json(itenAdded);
     })
     .catch(err => next(err));
 });
