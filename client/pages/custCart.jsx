@@ -19,7 +19,7 @@ export default class AddCategory extends React.Component {
   componentDidMount() {
     const id = this.context.user.userId;
     const req = {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },

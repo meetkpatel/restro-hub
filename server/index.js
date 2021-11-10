@@ -135,7 +135,7 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/fetch-cart-items/:id', (req, res, next) => {
+app.get('/api/fetch-cart-items/:id', (req, res, next) => {
   const userId = parseInt(req.params.id, 10);
   const sql = `select "cart"."itemId" as "itemId",
               "cart"."itemQty" as "itemQty",
