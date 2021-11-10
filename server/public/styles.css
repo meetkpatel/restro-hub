@@ -137,11 +137,13 @@ button {
   font-size: 1.5rem;
 }
 
-.categoty-entries-div h3 {
+.categoty-entries-div,
+.cart-entries-div h3 {
   margin: 0;
 }
 
-.categoty-entries-div {
+.categoty-entries-div,
+.cart-entries-div {
   display: flex;
   margin: 0, 20%;
   align-items: center;
@@ -149,14 +151,17 @@ button {
   height: 3.5rem;
   border-radius: 1rem;
   justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
-.categoty-entries-div:nth-child(odd) {
+.categoty-entries-div:nth-child(odd),
+.cart-entries-div:nth-child(odd) {
   background-color: rgb(229 157 49 / 30%);
 }
 
-.category-list-div {
+.category-list-div,
+.cart-list-div {
+  margin-top: 2rem;
   width: 70%;
 }
 
@@ -230,6 +235,7 @@ input[type="file"]::file-selector-button {
 
 .food-item-div {
   display: flex;
+  cursor: pointer;
   background-color: lightgray;
   border: none;
   border-radius: 0.5rem;
@@ -238,7 +244,6 @@ input[type="file"]::file-selector-button {
 }
 
 .food-item-div img {
-  height: 130px;
   width: 120px;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -481,4 +486,30 @@ input[type="file"]::file-selector-button {
 .item-modal-btn {
   display: flex;
   justify-content: space-between;
+}
+
+.cust-note {
+  padding-left: 0.5rem;
+  width: 99%;
+  height: 8rem;
+  border-radius: 0.7rem;
+  border: 1px solid gray;
+  font-size: 1rem;
+}
+
+.cart-btn-div {
+  display: flex;
+  justify-content: end;
+  margin-top: 1rem;
+  width: 70%;
+}
+
+.cart-btn {
+  background-color: #e59d31;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  width: 8rem;
+  height: 2.5rem;
+  font-size: 1rem;
 }

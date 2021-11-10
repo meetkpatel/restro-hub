@@ -135,6 +135,22 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/fetch-cart-items/:id', (req, res, next) => {
+  const userId = parseInt(req.params.id, 10);
+  const sql = `select "cart"."itemId" as "itemId",
+              "cart"."itemQty" as "itemQty",
+              "items"."itemName" as "itemName"
+              from "cart" join "items" using ("itemId")
+              where "cart"."userId" = $1`;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const cartItemFetch = result.rows;
+      res.json(cartItemFetch);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/add/category', (req, res, next) => {
   const { addcategory } = req.body;
   const sql = `

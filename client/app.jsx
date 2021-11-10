@@ -2,6 +2,8 @@ import React from 'react';
 import Home from './pages/home';
 import AdminMenu from './pages/adminMenu';
 import CustMenu from './pages/custMenu';
+import CustCart from './pages/custCart';
+
 import NotFound from './pages/not-found';
 
 import AppContext from './lib/app-context';
@@ -58,6 +60,8 @@ export default class App extends React.Component {
       return <AdminMenu />;
     } if (path === 'cust-menu') {
       return <CustMenu />;
+    } if (path === 'cust-cart') {
+      return <CustCart />;
     } if (path === 'category') {
       return <AddCategory />;
     } if (path === 'add-item') {

@@ -15,6 +15,12 @@ export default class CustHome extends React.Component {
               </a>
               <h3>Menu</h3>
             </div>
+            <div className="menu-div">
+              <a href="#cust-cart">
+                <i className="fas fa-shopping-basket menu-i-tag"></i>
+              </a>
+              <h3>Cart</h3>
+            </div>
           </div>
         </div>
       </>
