@@ -11,7 +11,7 @@ export default class CustMenu extends React.Component {
       menuFetch: [],
       isLoading: false,
       isModalOpen: false,
-      itemSeleted: [{ itemImg: null }]
+      itemSeleted: { itemImg: null }
     };
     this.itemClicked = this.itemClicked.bind(this);
     this.noBtnClick = this.noBtnClick.bind(this);
@@ -30,7 +30,7 @@ export default class CustMenu extends React.Component {
 
   itemClicked(seletedItem) {
     seletedItem.qty = 1;
-    this.setState({ itemSeleted: [seletedItem], isModalOpen: true });
+    this.setState({ itemSeleted: { ...seletedItem }, isModalOpen: true });
   }
 
   noBtnClick(event) {
@@ -94,14 +94,14 @@ export default class CustMenu extends React.Component {
             <div className="item-dispay-div">
               <div className="row">
                 <div className="column-full">
-                  <img src={this.state.itemSeleted[0].itemImg} className="item-img-modal" alt="" />
+                  <img src={this.state.itemSeleted.itemImg} className="item-img-modal" alt="" />
                 </div>
                 <div className="column-full">
-                  <h2 className="modal-item-name">{this.state.itemSeleted[0].itemName}</h2>
+                  <h2 className="modal-item-name">{this.state.itemSeleted.itemName}</h2>
                 </div>
                 <div className="column-full modal-item-qty ">
                   <i id="minus" className="fas fa-minus-circle modal-item-qty-i" onClick={this.qtyClicked}></i>
-                  <h1>{this.state.itemSeleted[0].qty}</h1>
+                  <h1>{this.state.itemSeleted.qty}</h1>
                   <i id="plus" className="fas fa-plus-circle modal-item-qty-i" onClick={this.qtyClicked}></i>
                 </div>
                 <div className="column-full item-modal-btn">
