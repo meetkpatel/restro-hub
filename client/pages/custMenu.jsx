@@ -38,25 +38,24 @@ export default class CustMenu extends React.Component {
   }
 
   qtyClicked(event) {
-    const currentItem = this.state.itemSeleted;
-    const currentQty = parseInt(this.state.itemSeleted[0].qty);
+    const currentItem = { ...this.state.itemSeleted };
+    const currentQty = parseInt(this.state.itemSeleted.qty);
     if (event.target.id === 'minus') {
       if (currentQty > 1) {
-        currentItem[0].qty = currentQty - 1;
+        currentItem.qty = currentQty - 1;
         this.setState({ itemSeleted: currentItem });
       } else {
-        currentItem[0].qty = currentQty;
+        currentItem.qty = currentQty;
         this.setState({ itemSeleted: currentItem });
       }
     }
     if (event.target.id === 'plus') {
-      currentItem[0].qty = currentQty + 1;
+      currentItem.qty = currentQty + 1;
       this.setState({ itemSeleted: currentItem });
     }
   }
 
   yesBtnClick(seletedItem) {
-    // this.setState({ itemSeleted: [seletedItem] });
     const req = {
       method: 'POST',
       headers: {
@@ -64,8 +63,8 @@ export default class CustMenu extends React.Component {
       },
       body: JSON.stringify({
         userId: this.context.user.userId,
-        itemId: this.state.itemSeleted[0].itemId,
-        itemQty: this.state.itemSeleted[0].qty
+        itemId: this.state.itemSeleted.itemId,
+        itemQty: this.state.itemSeleted.qty
       })
     };
     fetch('/api/add-item', req)
