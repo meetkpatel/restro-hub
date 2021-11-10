@@ -41,9 +41,11 @@ CREATE TABLE "public"."category" (
 
 
 CREATE TABLE "public"."ordersItems" (
+  "orderItemId" serial NOT NULL,
 	"orderId" integer NOT NULL,
 	"itemid" integer NOT NULL,
-	"quantity" integer NOT NULL
+	"quantity" integer NOT NULL,
+  CONSTRAINT "ordersItems_pk" PRIMARY KEY ("orderItemId")
 ) WITH (
   OIDS=FALSE
 );
@@ -83,9 +85,11 @@ CREATE TABLE "public"."waitlist" (
 
 
 CREATE TABLE "public"."cart" (
+  "cartId" serial NOT NULL,
 	"userId" integer NOT NULL,
 	"itemId" integer NOT NULL,
-	"itemQty" integer NOT NULL
+	"itemQty" integer NOT NULL,
+  CONSTRAINT "cart_pk" PRIMARY KEY ("cartId")
 ) WITH (
   OIDS=FALSE
 );
