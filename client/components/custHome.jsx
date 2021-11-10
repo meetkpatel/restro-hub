@@ -7,7 +7,16 @@ export default class CustHome extends React.Component {
     return (
       <>
         <Navbar title={'Home'} />
-      <h1>Hello Customer</h1>
+        <div className="row">
+          <div className="column-full home-flex ">
+            <div className="menu-div">
+              <a href="#cust-menu">
+                <i className="fas fa-utensils menu-i-tag"></i>
+              </a>
+              <h3>Menu</h3>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

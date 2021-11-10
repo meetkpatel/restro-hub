@@ -364,7 +364,7 @@ input[type="file"]::file-selector-button {
 }
 
 .free-table-modal-div,
-.assign-table-modal-div {
+.item-modal-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -372,7 +372,7 @@ input[type="file"]::file-selector-button {
   top: 0;
   height: 100vh;
   width: 100%;
-  background: rgb(0 0 0 / 70%);
+  background: rgb(0 0 0 / 85%);
 }
 
 .free-table-content-div,
@@ -381,6 +381,18 @@ input[type="file"]::file-selector-button {
   width: 32rem;
   background-color: white;
   border-radius: 4px;
+}
+
+.item-dispay-div {
+  padding: 0;
+  width: 20rem;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.item-dispay-div .column-full {
+  margin: 0;
+  padding: 0;
 }
 
 .free-table-row-btn,
@@ -409,4 +421,64 @@ input[type="file"]::file-selector-button {
   border: none;
   color: white;
   font-weight: bold;
+}
+
+.item-img-modal {
+  width: 100%;
+  height: 14rem;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.no-padding-margin {
+  padding: 0;
+  margin: 0;
+}
+
+.modal-item-name {
+  margin: 0.2rem 0.5rem;
+}
+
+.modal-item-qty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e59d31;
+}
+
+.modal-item-qty h1 {
+  margin: 0 2rem;
+  padding: 0.7rem;
+  font-size: 2.7rem;
+}
+
+.modal-item-qty-i {
+  font-size: 2.2rem;
+}
+
+.red-btn-item {
+  height: 2rem;
+  width: 5rem;
+  background-color: #df5025;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  margin: 1rem 2rem;
+}
+
+.green-btn-item {
+  height: 2rem;
+  width: 5rem;
+  background-color: #35b852;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  margin: 1rem 1.5rem;
+}
+
+.item-modal-btn {
+  display: flex;
+  justify-content: space-between;
 }
