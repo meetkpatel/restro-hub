@@ -29,6 +29,7 @@ export default class AddCategory extends React.Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ cartItemsFetch: result, isLoading: false });
+
       });
   }
 
@@ -39,7 +40,21 @@ export default class AddCategory extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: this.context.user.userId,
+        custNote: this.state.custNote
+      })
+    };
+    fetch('/api/place-order', req)
+      .then(res => res.json())
+      .then(result => {
+        Redirect({ to: '#' });
+      });
   }
 
   render() {
@@ -54,6 +69,7 @@ export default class AddCategory extends React.Component {
       return (
         <>
           <Navbar title={'Cart'} />
+          <form onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="column-full justify-center-only">
               <div className="cart-list-div">
@@ -71,6 +87,7 @@ export default class AddCategory extends React.Component {
               </div>
             </div>
           </div>
+          </form>
         </>
       );
     }

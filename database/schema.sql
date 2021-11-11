@@ -40,12 +40,12 @@ CREATE TABLE "public"."category" (
 
 
 
-CREATE TABLE "public"."ordersItems" (
-  "orderItemId" serial NOT NULL,
-	"orderId" integer NOT NULL,
-	"itemid" integer NOT NULL,
+CREATE TABLE "public"."cartItems" (
+	"cartItemId" serial NOT NULL,
+	"cartId" integer NOT NULL,
+	"itemId" integer NOT NULL,
 	"quantity" integer NOT NULL,
-  CONSTRAINT "ordersItems_pk" PRIMARY KEY ("orderItemId")
+	CONSTRAINT "cartItems_pk" PRIMARY KEY ("cartItemId")
 ) WITH (
   OIDS=FALSE
 );
@@ -66,7 +66,7 @@ CREATE TABLE "public"."items" (
 
 CREATE TABLE "public"."orders" (
 	"orderId" serial NOT NULL,
-	"userId" integer NOT NULL,
+	"cartId" integer NOT NULL,
 	"orderNote" TEXT NOT NULL,
 	"orderStatus" TEXT NOT NULL,
 	CONSTRAINT "orders_pk" PRIMARY KEY ("orderId")
@@ -85,11 +85,9 @@ CREATE TABLE "public"."waitlist" (
 
 
 CREATE TABLE "public"."cart" (
-  "cartId" serial NOT NULL,
+	"cartId" serial NOT NULL,
 	"userId" integer NOT NULL,
-	"itemId" integer NOT NULL,
-	"itemQty" integer NOT NULL,
-  CONSTRAINT "cart_pk" PRIMARY KEY ("cartId")
+	CONSTRAINT "cart_pk" PRIMARY KEY ("cartId")
 ) WITH (
   OIDS=FALSE
 );
@@ -100,14 +98,11 @@ CREATE TABLE "public"."cart" (
 ALTER TABLE "tables" ADD CONSTRAINT "tables_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 
 
-ALTER TABLE "ordersItems" ADD CONSTRAINT "ordersItems_fk0" FOREIGN KEY ("orderId") REFERENCES "orders"("orderId");
-ALTER TABLE "ordersItems" ADD CONSTRAINT "ordersItems_fk1" FOREIGN KEY ("itemid") REFERENCES "items"("itemId");
+ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk0" FOREIGN KEY ("itemid") REFERENCES "items"("itemId");
 
 ALTER TABLE "items" ADD CONSTRAINT "items_fk0" FOREIGN KEY ("categoryId") REFERENCES "category"("categoryId");
 
-ALTER TABLE "orders" ADD CONSTRAINT "orders_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 
 ALTER TABLE "waitlist" ADD CONSTRAINT "waitlist_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 
 ALTER TABLE "cart" ADD CONSTRAINT "cart_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
-ALTER TABLE "cart" ADD CONSTRAINT "cart_fk1" FOREIGN KEY ("itemId") REFERENCES "items"("itemId");
