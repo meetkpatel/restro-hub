@@ -7,6 +7,7 @@ const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 
 function randomPassword() {
   return Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
@@ -131,25 +132,6 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
     .then(result => {
       const menuRow = result.rows;
       res.json(menuRow);
-    })
-    .catch(err => next(err));
-});
-
-app.post('/api/place-order', (req, res, next) => {
-  const { userId, custNote } = req.body;
-  const sql = `with "deleteCartId" as (
-      delete from "cart"
-      where "userId" = $1
-      returning "cartId"
-      )
-      insert into "orders" ("cartId","orderNote","orderStatus")
-      values ((select "cartId" from "deleteCartId"),$2,$3)
-      returning *`;
-  const params = [userId, custNote, 'Received'];
-  db.query(sql, params)
-    .then(result => {
-      const orderInserted = result.rows[0];
-      res.json(orderInserted);
     })
     .catch(err => next(err));
 });
@@ -321,4 +303,26 @@ app.use(errorMiddleware);
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
+});
+
+app.use(authorizationMiddleware);
+
+app.post('/api/place-order', (req, res, next) => {
+  const { userId } = req.user;
+  const { custNote } = req.body;
+  const sql = `with "deleteCartId" as (
+      delete from "cart"
+      where "userId" = $1
+      returning "cartId"
+      )
+      insert into "orders" ("cartId","orderNote","orderStatus")
+      values ((select "cartId" from "deleteCartId"),$2,$3)
+      returning *`;
+  const params = [userId, custNote, 'Received'];
+  db.query(sql, params)
+    .then(result => {
+      const orderInserted = result.rows[0];
+      res.json(orderInserted);
+    })
+    .catch(err => next(err));
 });

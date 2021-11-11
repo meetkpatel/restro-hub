@@ -40,13 +40,14 @@ export default class AddCategory extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const token = window.localStorage.getItem('react-context-jwt');
     const req = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Access-Token': token
       },
       body: JSON.stringify({
-        userId: this.context.user.userId,
         custNote: this.state.custNote
       })
     };
