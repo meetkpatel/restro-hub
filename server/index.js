@@ -7,6 +7,7 @@ const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 
 function randomPassword() {
   return Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
@@ -137,11 +138,16 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
 
 app.get('/api/fetch-cart-items/:id', (req, res, next) => {
   const userId = parseInt(req.params.id, 10);
-  const sql = `select "cart"."itemId" as "itemId",
-              "cart"."itemQty" as "itemQty",
-              "items"."itemName" as "itemName"
-              from "cart" join "items" using ("itemId")
-              where "cart"."userId" = $1`;
+  const sql = `with "selectCardId" as (
+               select "cartId" from "cart"
+               where "userId" = $1
+               )
+                select "cartItems"."itemId" as "itemId",
+                "cartItems"."quantity" as "itemQty",
+                "items"."itemName" as "itemName"
+                from "cartItems" join "items" using ("itemId")
+                where "cartItems"."cartId" = (select "cartId" from "selectCardId")
+              `;
   const params = [userId];
   db.query(sql, params)
     .then(result => {
@@ -169,16 +175,43 @@ app.post('/api/add/category', (req, res, next) => {
 
 app.post('/api/add-item', (req, res, next) => {
   const { userId, itemId, itemQty } = req.body;
-  const sql = `
-        insert into "cart" ("userId","itemId","itemQty")
-        values ($1,$2,$3)
-        returning *
-      `;
-  const params = [userId, itemId, itemQty];
+  const sql = `select "userId" from "cart"
+               where "userId" = $1`;
+  const params = [userId];
   db.query(sql, params)
     .then(result => {
-      const [itenAdded] = result.rows;
-      res.json(itenAdded);
+      const [userFetched] = result.rows;
+      if (!userFetched) {
+        const sql = `with "insertCart" as (
+                    insert into "cart" ("userId") values($1)
+                    returning "cartId"
+                    )
+                    insert into "cartItems" ("cartId","itemId","quantity")
+                    values ((select "cartId" from "insertCart"),$2,$3)
+                    returning *`;
+        const params = [userId, itemId, itemQty];
+        db.query(sql, params)
+          .then(result => {
+            const [itemAdded] = result.rows;
+            res.json(itemAdded);
+          })
+          .catch(err => next(err));
+      } else {
+        const sql = `with "selectUser" as (
+                    select "cartId" from "cart"
+                    where "userId" = $1
+                    )
+                    insert into "cartItems" ("cartId","itemId","quantity")
+                    values ((select "cartId" from "selectUser"),$2,$3)
+                    returning *`;
+        const params = [userId, itemId, itemQty];
+        db.query(sql, params)
+          .then(result => {
+            const [itemAdded] = result.rows;
+            res.json(itemAdded);
+          })
+          .catch(err => next(err));
+      }
     })
     .catch(err => next(err));
 });
@@ -270,4 +303,26 @@ app.use(errorMiddleware);
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
+});
+
+app.use(authorizationMiddleware);
+
+app.post('/api/place-order', (req, res, next) => {
+  const { userId } = req.user;
+  const { custNote } = req.body;
+  const sql = `with "deleteCartId" as (
+      delete from "cart"
+      where "userId" = $1
+      returning "cartId"
+      )
+      insert into "orders" ("cartId","orderNote","orderStatus")
+      values ((select "cartId" from "deleteCartId"),$2,$3)
+      returning *`;
+  const params = [userId, custNote, 'Received'];
+  db.query(sql, params)
+    .then(result => {
+      const orderInserted = result.rows[0];
+      res.json(orderInserted);
+    })
+    .catch(err => next(err));
 });
