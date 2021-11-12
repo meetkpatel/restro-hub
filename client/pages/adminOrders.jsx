@@ -17,8 +17,8 @@ export default class AdminOrders extends React.Component {
   }
 
   componentDidMount() {
-    const socket = io();
-    socket.on('hello', arg => {
+    this.socket = io();
+    this.socket.on('order_placed', arg => {
       const orderId = parseInt(arg.orderId); // 1
       const req = {
         method: 'GET',
@@ -38,6 +38,10 @@ export default class AdminOrders extends React.Component {
       .then(result => {
         this.setState({ ordersFetch: result, isLoading: false });
       });
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect();
   }
 
   render() {

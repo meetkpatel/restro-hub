@@ -30,9 +30,6 @@ app.use(jsonMiddleware);
 const httpServer = createServer(app);
 const io = new Server(httpServer, { /* options */ });
 
-io.on('connection', socket => {
-});
-
 app.post('/api/auth/sign-in', (req, res, next) => {
   const { mobile, password } = req.body;
   if (!mobile || !password) {
@@ -382,7 +379,7 @@ app.post('/api/place-order', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const orderInserted = result.rows[0];
-      io.emit('hello', orderInserted);
+      io.emit('order_placed', orderInserted);
       res.json(orderInserted);
     })
     .catch(err => next(err));
