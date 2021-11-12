@@ -56,7 +56,7 @@
   }
 
   .column-one-third {
-    width: 25%;
+    width: calc(100% / 3);
   }
 
   .column-one-fifth {

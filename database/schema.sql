@@ -67,6 +67,7 @@ CREATE TABLE "public"."items" (
 CREATE TABLE "public"."orders" (
 	"orderId" serial NOT NULL,
 	"cartId" integer NOT NULL,
+  "userId" integer NOT NULL,
 	"orderNote" TEXT NOT NULL,
 	"orderStatus" TEXT NOT NULL,
 	CONSTRAINT "orders_pk" PRIMARY KEY ("orderId")
@@ -98,7 +99,7 @@ CREATE TABLE "public"."cart" (
 ALTER TABLE "tables" ADD CONSTRAINT "tables_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 
 
-ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk0" FOREIGN KEY ("itemid") REFERENCES "items"("itemId");
+ALTER TABLE "cartItems" ADD CONSTRAINT "cartItems_fk0" FOREIGN KEY ("itemId") REFERENCES "items"("itemId");
 
 ALTER TABLE "items" ADD CONSTRAINT "items_fk0" FOREIGN KEY ("categoryId") REFERENCES "category"("categoryId");
 

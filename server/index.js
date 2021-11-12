@@ -9,6 +9,9 @@ const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const authorizationMiddleware = require('./authorization-middleware');
 
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+
 function randomPassword() {
   return Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
 }
@@ -23,6 +26,12 @@ const db = new pg.Pool({
 const app = express();
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
+
+io.on('connection', socket => {
+});
 
 app.post('/api/auth/sign-in', (req, res, next) => {
   const { mobile, password } = req.body;
@@ -152,6 +161,57 @@ app.get('/api/fetch-cart-items/:id', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const cartItemFetch = result.rows;
+      res.json(cartItemFetch);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/fetch-orders', (req, res, next) => {
+  const sql = `with "itemsWithCategory" as (
+              SELECT "orders"."cartId",
+                      "orders"."orderId",
+                      "orders"."userId",
+                      "orders"."orderNote",
+                      "cartItems"."quantity",
+                      "tables"."tableNumber",
+                      "items"."itemName" FROM "orders"
+              JOIN "cartItems" USING ("cartId")
+              JOIN "items" USING ("itemId")
+              JOIN "tables" USING ("userId"))
+              SELECT "cartId","orderId","userId","tableNumber","orderNote",JSON_AGG("itemsWithCategory".*) as "items"
+              FROM "itemsWithCategory"
+              group by "cartId","orderId","userId","tableNumber","orderNote"
+              `;
+  db.query(sql)
+    .then(result => {
+      const cartItemFetch = result.rows;
+      res.json(cartItemFetch);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/fetch-orders-socket/:id', (req, res, next) => {
+  const orderId = parseInt(req.params.id, 10);
+  const sql = `with "itemsWithCategory" as (
+              SELECT "orders"."cartId",
+                      "orders"."orderId",
+                      "orders"."userId",
+                      "orders"."orderNote",
+                      "cartItems"."quantity",
+                      "tables"."tableNumber",
+                      "items"."itemName" FROM "orders"
+              JOIN "cartItems" USING ("cartId")
+              JOIN "items" USING ("itemId")
+              JOIN "tables" USING ("userId")
+              Where "orders"."orderId" = $1)
+              SELECT "cartId","orderId","userId","tableNumber","orderNote",JSON_AGG("itemsWithCategory".*) as "items"
+              FROM "itemsWithCategory"
+              group by "cartId","orderId","userId","tableNumber","orderNote"
+              `;
+  const params = [orderId];
+  db.query(sql, params)
+    .then(result => {
+      const cartItemFetch = result.rows[0];
       res.json(cartItemFetch);
     })
     .catch(err => next(err));
@@ -300,7 +360,7 @@ app.use(staticMiddleware);
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
 });
@@ -315,13 +375,14 @@ app.post('/api/place-order', (req, res, next) => {
       where "userId" = $1
       returning "cartId"
       )
-      insert into "orders" ("cartId","orderNote","orderStatus")
-      values ((select "cartId" from "deleteCartId"),$2,$3)
+      insert into "orders" ("cartId","userId","orderNote","orderStatus")
+      values ((select "cartId" from "deleteCartId"),$1,$2,$3)
       returning *`;
   const params = [userId, custNote, 'Received'];
   db.query(sql, params)
     .then(result => {
       const orderInserted = result.rows[0];
+      io.emit('hello', orderInserted);
       res.json(orderInserted);
     })
     .catch(err => next(err));
