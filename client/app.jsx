@@ -14,6 +14,7 @@ import AddItem from './pages/addItems';
 import Waitlist from './pages/waitList';
 import AuthPage from './pages/auth';
 import Tables from './pages/tables';
+import AdminOrders from './pages/adminOrders';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -55,9 +56,10 @@ export default class App extends React.Component {
       return <Home />;
     } if (path === 'sign-in') {
       return <AuthPage />;
-    }
-    if (path === 'admin-menu') {
+    } if (path === 'admin-menu') {
       return <AdminMenu />;
+    } if (path === 'admin-orders') {
+      return <AdminOrders />;
     } if (path === 'cust-menu') {
       return <CustMenu />;
     } if (path === 'cust-cart') {
