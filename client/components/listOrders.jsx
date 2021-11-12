@@ -7,8 +7,6 @@ function GetItem(props) {
       <h3>x{props.item.quantity}</h3>
       <h3>{props.item.itemName}</h3>
     </div>
-    // <div className="order-div ">
-    //     <h1 id={props.item.orderId}>{props.item.orderId}</h1>
   );
 }
 
