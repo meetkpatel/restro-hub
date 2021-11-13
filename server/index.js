@@ -142,29 +142,17 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.put('/api/preparing/:id', (req, res, next) => {
+app.put('/api/update-order-status/:id', (req, res, next) => {
   const cartId = parseInt(req.params.id, 10);
+  const { action } = req.body;
   const sql = `update "orders" set "orderStatus" =$1
                where "cartId" = $2
               returning * `;
-  const params = ['preparing', cartId];
+  const params = [action, cartId];
   db.query(sql, params)
     .then(result => {
       const statusUpdateRow = result.rows;
       res.json(statusUpdateRow);
-    })
-    .catch(err => next(err));
-});
-app.delete('/api/ready/:id', (req, res, next) => {
-  const cartId = parseInt(req.params.id, 10);
-  const sql = `delete from "orders"
-              where "cartId" = $1
-              returning * `;
-  const params = [cartId];
-  db.query(sql, params)
-    .then(result => {
-      const deletedRow = result.rows;
-      res.json(deletedRow);
     })
     .catch(err => next(err));
 });
@@ -202,12 +190,14 @@ app.get('/api/fetch-orders', (req, res, next) => {
                       "items"."itemName" FROM "orders"
               JOIN "cartItems" USING ("cartId")
               JOIN "items" USING ("itemId")
-              JOIN "tables" USING ("userId"))
+              JOIN "tables" USING ("userId")
+              where "orders"."orderStatus" != $1)
               SELECT "cartId","orderId","userId","tableNumber","orderNote","orderStatus",JSON_AGG("itemsWithCategory".*) as "items"
               FROM "itemsWithCategory"
               group by "cartId","orderId","userId","tableNumber","orderNote","orderStatus"
               `;
-  db.query(sql)
+  const params = ['finished'];
+  db.query(sql, params)
     .then(result => {
       const cartItemFetch = result.rows;
       res.json(cartItemFetch);

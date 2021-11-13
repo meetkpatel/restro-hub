@@ -61,21 +61,21 @@ export default class AdminOrders extends React.Component {
 
   modalBtnClicked(event) {
     const cartId = this.state.orderSeleted.cartId;
-    const action = (event.target.name === 'preparing') ? 'PUT' : 'DELETE';
+    const action = (event.target.name === 'preparing') ? 'preparing' : 'finished';
 
     const req = {
-      method: action,
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: null
+      body: JSON.stringify({ action })
     };
-    fetch(`/api/${event.target.name}/${cartId}`, req)
+    fetch(`/api/update-order-status/${cartId}`, req)
       .then(res => res.json())
       .then(result => {
         const newdata = this.state.ordersFetch.map(olddata => {
           if (olddata.cartId === this.state.orderSeleted.cartId) {
-            if (action === 'PUT') {
+            if (action === 'preparing') {
               olddata.orderStatus = 'preparing';
               return olddata;
             } else {
