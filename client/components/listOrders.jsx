@@ -11,9 +11,12 @@ function GetItem(props) {
 }
 
 function Item(props) {
+  function orderClick() {
+    return props.orderClicked(props.item);
+  }
   return (
     <div className="column-one-third justify-center-only">
-      <div className="order-div">
+      <div className={(props.item.orderStatus === 'Received') ? 'order-div order-div-orange' : 'order-div order-div-green'}onClick={orderClick}>
         <div className="column-full order-table-order-div">
           <h2>Table No: {props.item.tableNumber}</h2>
           <h2>#{props.item.orderId}</h2>
@@ -39,7 +42,7 @@ function ListOrders(props) {
           <div className="row">
             {
               props.ordersFetch.map((item, index) => {
-                return <Item key={index} item={item} />;
+                return <Item key={index} item={item} orderClicked={props.orderClicked}/>;
               })
             }
           </div>
