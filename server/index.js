@@ -133,11 +133,26 @@ app.delete('/api/delete/category/:id', (req, res, next) => {
               where "categoryId" = $1
               returning * `;
   const params = [deleteId];
-
   db.query(sql, params)
     .then(result => {
+
       const menuRow = result.rows;
       res.json(menuRow);
+    })
+    .catch(err => next(err));
+});
+
+app.put('/api/update-order-status/:id', (req, res, next) => {
+  const cartId = parseInt(req.params.id, 10);
+  const { action } = req.body;
+  const sql = `update "orders" set "orderStatus" =$1
+               where "cartId" = $2
+              returning * `;
+  const params = [action, cartId];
+  db.query(sql, params)
+    .then(result => {
+      const statusUpdateRow = result.rows;
+      res.json(statusUpdateRow);
     })
     .catch(err => next(err));
 });
@@ -169,17 +184,20 @@ app.get('/api/fetch-orders', (req, res, next) => {
                       "orders"."orderId",
                       "orders"."userId",
                       "orders"."orderNote",
+                      "orders"."orderStatus",
                       "cartItems"."quantity",
                       "tables"."tableNumber",
                       "items"."itemName" FROM "orders"
               JOIN "cartItems" USING ("cartId")
               JOIN "items" USING ("itemId")
-              JOIN "tables" USING ("userId"))
-              SELECT "cartId","orderId","userId","tableNumber","orderNote",JSON_AGG("itemsWithCategory".*) as "items"
+              JOIN "tables" USING ("userId")
+              where "orders"."orderStatus" != $1)
+              SELECT "cartId","orderId","userId","tableNumber","orderNote","orderStatus",JSON_AGG("itemsWithCategory".*) as "items"
               FROM "itemsWithCategory"
-              group by "cartId","orderId","userId","tableNumber","orderNote"
+              group by "cartId","orderId","userId","tableNumber","orderNote","orderStatus"
               `;
-  db.query(sql)
+  const params = ['finished'];
+  db.query(sql, params)
     .then(result => {
       const cartItemFetch = result.rows;
       res.json(cartItemFetch);
@@ -194,6 +212,7 @@ app.get('/api/fetch-orders-socket/:id', (req, res, next) => {
                       "orders"."orderId",
                       "orders"."userId",
                       "orders"."orderNote",
+                      "orders"."orderStatus",
                       "cartItems"."quantity",
                       "tables"."tableNumber",
                       "items"."itemName" FROM "orders"
@@ -201,9 +220,9 @@ app.get('/api/fetch-orders-socket/:id', (req, res, next) => {
               JOIN "items" USING ("itemId")
               JOIN "tables" USING ("userId")
               Where "orders"."orderId" = $1)
-              SELECT "cartId","orderId","userId","tableNumber","orderNote",JSON_AGG("itemsWithCategory".*) as "items"
+              SELECT "cartId","orderId","userId","tableNumber","orderNote","orderStatus",JSON_AGG("itemsWithCategory".*) as "items"
               FROM "itemsWithCategory"
-              group by "cartId","orderId","userId","tableNumber","orderNote"
+              group by "cartId","orderId","userId","tableNumber","orderNote","orderStatus"
               `;
   const params = [orderId];
   db.query(sql, params)
