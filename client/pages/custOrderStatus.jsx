@@ -32,7 +32,6 @@ export default class AdminOrders extends React.Component {
     fetch('/api/fetch-order-status', req)
       .then(res => res.json())
       .then(result => {
-        // console.log('result', result);
         this.setState({ ordersFetch: result, isLoading: false });
       });
   }
@@ -63,7 +62,6 @@ export default class AdminOrders extends React.Component {
                   <div className={(this.state.ordersFetch.orderStatus === 'Received') ? 'status-circle ' : 'status-circle color-change'}></div>
                   <div className={(this.state.ordersFetch.orderStatus !== 'finished') ? 'vl' : 'vl color-change'}></div>
                   <div className={(this.state.ordersFetch.orderStatus !== 'finished') ? 'status-circle' : 'status-circle color-change'}></div>
-                  {/* <div className="progress-bar" style="width:70%"></div> */}
                 </div>
                 <div className="status-bar">
                   <h3>Received</h3>
