@@ -8,9 +8,21 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const authorizationMiddleware = require('./authorization-middleware');
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
+const client = require('twilio')(accountSid, authToken);
 
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+
+function sendSMS(code, custName, custNumber, tableNumber) {
+  client.messages
+    .create({
+      to: `+1${custNumber}`,
+      from: '+12674353506',
+      body: `Hello ${custName}, your table number is ${tableNumber} use your mobile number and code ${code} to login`
+    });
+}
 
 function randomPassword() {
   return Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
@@ -122,6 +134,22 @@ app.put('/api/table-assign/:id', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const updatedRow = result.rows[0];
+      const password = String(randomPassword());
+      argon2
+        .hash(password)
+        .then(hashedPassword => {
+          const sql = `update "users" set "userPassword"=$1
+                      where "userId"=$2
+                      returning *`;
+          const params = [hashedPassword, custId];
+          db.query(sql, params)
+            .then(result => {
+              const customerAdded = result.rows[0];
+              sendSMS(password, customerAdded.userName, customerAdded.userNumber, updatedRow.tableNumber);
+              // res.json(customerAdded);
+            })
+            .catch(err => next(err));
+        });
       res.json(updatedRow);
     })
     .catch(err => next(err));
@@ -151,7 +179,8 @@ app.put('/api/update-order-status/:id', (req, res, next) => {
   const params = [action, cartId];
   db.query(sql, params)
     .then(result => {
-      const statusUpdateRow = result.rows;
+      const statusUpdateRow = result.rows[0];
+      io.emit('order_status', statusUpdateRow);
       res.json(statusUpdateRow);
     })
     .catch(err => next(err));
@@ -399,6 +428,19 @@ app.post('/api/place-order', (req, res, next) => {
     .then(result => {
       const orderInserted = result.rows[0];
       io.emit('order_placed', orderInserted);
+      res.json(orderInserted);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/fetch-order-status', (req, res, next) => {
+  const { userId } = req.user;
+  const sql = `select * from "orders"
+               where "userId"=$1`;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const orderInserted = result.rows[0];
       res.json(orderInserted);
     })
     .catch(err => next(err));

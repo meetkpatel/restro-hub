@@ -3,6 +3,7 @@ import Home from './pages/home';
 import AdminMenu from './pages/adminMenu';
 import CustMenu from './pages/custMenu';
 import CustCart from './pages/custCart';
+import CustOrderStatus from './pages/custOrderStatus';
 
 import NotFound from './pages/not-found';
 
@@ -64,6 +65,8 @@ export default class App extends React.Component {
       return <CustMenu />;
     } if (path === 'cust-cart') {
       return <CustCart />;
+    } if (path === 'cust-order-status') {
+      return <CustOrderStatus />;
     } if (path === 'category') {
       return <AddCategory />;
     } if (path === 'add-item') {
