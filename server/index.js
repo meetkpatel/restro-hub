@@ -366,7 +366,7 @@ app.post('/api/add/waitlist', (req, res, next) => {
 app.post('/api/add/fooditem', uploadsMiddleware, (req, res, next) => {
   const { categoryselect, itemName, itemPrice, itemDesc } = req.body;
   const catid = parseInt(categoryselect);
-  const url = '/images' + '/' + req.file.filename;
+  const url = req.file.key;
   const sql = `
     insert into "items" ("itemName", "itemDescription","itemPrice","categoryId","itemImg")
     values ($1, $2, $3, $4, $5)

@@ -4,7 +4,7 @@ function Item(props) {
   return (
     <div className="column-half">
       <div className="food-item-div">
-        <img src={props.item.itemImg} alt="" />
+        <img src={'https://finalprojectmeet.s3.us-west-1.amazonaws.com/' + props.item.itemImg} alt="" />
         <div className="row width-full">
           <div className="column-full name-price-div">
             <h2>{props.item.itemName}</h2>

@@ -13,7 +13,7 @@ export default class AddItem extends React.Component {
       itemName: '',
       itemPrice: '',
       itemDesc: '',
-      itemImg: 'blank.jpeg',
+      itemImg: 'https://finalprojectmeet.s3.us-west-1.amazonaws.com/blank.jpeg',
       categoryFetch: [],
       isLoading: true
     };
