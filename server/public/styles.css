@@ -47,17 +47,6 @@ button {
   margin: 0 0.5rem;
 }
 
-.menu-div {
-  margin-left: 8rem;
-  margin-top: 2rem;
-  width: 8rem;
-  height: 8rem;
-  background-color: #e59d31;
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-}
-
 .menu-div h3 {
   margin: 0;
 }
@@ -273,11 +262,6 @@ input[type="file"]::file-selector-button {
   border-radius: 0.5rem;
   background-color: rgb(229 157 49 / 70%);
   margin-right: 0.5rem;
-}
-
-.home-flex {
-  display: flex;
-  justify-content: flex-start;
 }
 
 .waitlist-input-div {
