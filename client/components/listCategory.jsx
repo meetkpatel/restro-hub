@@ -5,7 +5,7 @@ function Item(props) {
   return (
     <div className="categoty-entries-div">
       <h3>{props.item.categoryName}</h3>
-      <i id={props.item.categoryId} className="far fa-trash-alt" onClick={props.deleteEntries}></i>
+      <i id={props.item.categoryId} className="far fa-trash-alt cursor-poiter" onClick={props.deleteEntries}></i>
     </div>
   );
 }
