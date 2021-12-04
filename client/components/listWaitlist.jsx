@@ -21,8 +21,8 @@ function ListWaitList(props) {
       </div>
       </>
     );
-  }
-  return (
+  } else {
+    return (
     <>
       {
         props.waitListFetch.map((item, index) => {
@@ -30,7 +30,8 @@ function ListWaitList(props) {
         })
       }
     </>
-  );
+    );
+  }
 }
 
 export default ListWaitList;
