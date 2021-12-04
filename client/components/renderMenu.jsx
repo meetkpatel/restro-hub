@@ -36,14 +36,25 @@ function Cate(props) {
 }
 
 function RenderMenu(props) {
-  return (
-    <div className="row">
-      {
-        props.menuList.map(item => {
-          return <Cate key={item.categoryId} item={item} />;
-        })
-      }
-    </div>
-  );
+  if (!props.menuList[0]) {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+          <h3>No food item added to menu yet</h3>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <div className="row">
+        {
+          props.menuList.map(item => {
+            return <Cate key={item.categoryId} item={item} />;
+          })
+        }
+      </div>
+    );
+  }
+
 }
 export default RenderMenu;
