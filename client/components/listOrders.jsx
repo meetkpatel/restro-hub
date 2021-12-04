@@ -35,6 +35,15 @@ function Item(props) {
 }
 
 function ListOrders(props) {
+  if (!props.ordersFetch[0]) {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+          <h3>No orders has been submitted yet</h3>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className="column-full justify-center-only">
