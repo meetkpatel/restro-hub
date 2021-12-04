@@ -43,22 +43,24 @@ function ListOrders(props) {
         </div>
       </>
     );
-  }
-  return (
-    <>
-      <div className="column-full justify-center-only">
-        <div className="cust-orders-div ">
-          <div className="row">
-            {
-              props.ordersFetch.map((item, index) => {
-                return <Item key={index} item={item} orderClicked={props.orderClicked}/>;
-              })
-            }
+  } else {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+          <div className="cust-orders-div ">
+            <div className="row">
+              {
+                props.ordersFetch.map((item, index) => {
+                  return <Item key={index} item={item} orderClicked={props.orderClicked} />;
+                })
+              }
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
+
 }
 
 export default ListOrders;
