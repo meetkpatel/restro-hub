@@ -13,6 +13,15 @@ function Item(props) {
 }
 
 function ListWaitList(props) {
+  if (!props.waitListFetch[0]) {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+        <h3>No guest added to waitlist</h3>
+      </div>
+      </>
+    );
+  }
   return (
     <>
       {
