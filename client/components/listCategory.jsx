@@ -13,15 +13,26 @@ function Item(props) {
 function ListCategory(props) {
 
   const { deleteEntries } = props;
-  return (
-    <>
-      {
-        props.categoryFetch.map(item => {
-          return <Item key={item.categoryId} item={item} deleteEntries={deleteEntries}/>;
-        })
-      }
-    </>
-  );
+  if (!props.categoryFetch[0]) {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+          <h3>No category added yet</h3>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        {
+          props.categoryFetch.map(item => {
+            return <Item key={item.categoryId} item={item} deleteEntries={deleteEntries} />;
+          })
+        }
+      </>
+    );
+  }
+
 }
 
 export default ListCategory;
