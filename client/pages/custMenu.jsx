@@ -11,7 +11,7 @@ export default class CustMenu extends React.Component {
       menuFetch: [],
       isLoading: false,
       isModalOpen: false,
-      itemSeleted: { itemImg: null }
+      itemSeleted: { itemImg: 'blank.jpeg' }
     };
     this.itemClicked = this.itemClicked.bind(this);
     this.noBtnClick = this.noBtnClick.bind(this);
