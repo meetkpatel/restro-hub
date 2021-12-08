@@ -39,7 +39,16 @@ function Cate(props) {
 }
 
 function RenderCustMenu(props) {
-  return (
+  if (!props.menuList[0]) {
+    return (
+      <>
+        <div className="column-full justify-center-only">
+          <h3>No food item added to menu yet</h3>
+        </div>
+      </>
+    );
+  } else {
+    return (
     <div className="row">
 
       {
@@ -48,6 +57,7 @@ function RenderCustMenu(props) {
         })
       }
     </div>
-  );
+    );
+  }
 }
 export default RenderCustMenu;
