@@ -34,7 +34,8 @@ export default class CustMenu extends React.Component {
   }
 
   noBtnClick(event) {
-    this.setState({ itemSeleted: [{ itemImg: null }], isModalOpen: false });
+    const seletedItemImg = { itemImg: 'blank.jpeg' };
+    this.setState({ itemSeleted: { ...seletedItemImg }, isModalOpen: false });
   }
 
   qtyClicked(event) {
@@ -70,7 +71,8 @@ export default class CustMenu extends React.Component {
     fetch('/api/add-item', req)
       .then(res => res.json())
       .then(result => {
-        this.setState({ itemSeleted: [{ itemImg: null }], isModalOpen: false });
+        const seletedItemImg = { itemImg: 'blank.jpeg' };
+        this.setState({ itemSeleted: { ...seletedItemImg }, isModalOpen: false });
       });
   }
 
