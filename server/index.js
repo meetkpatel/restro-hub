@@ -436,12 +436,20 @@ app.post('/api/place-order', (req, res, next) => {
 app.get('/api/fetch-order-status', (req, res, next) => {
   const { userId } = req.user;
   const sql = `select * from "orders"
-               where "userId"=$1`;
+               where "userId"=$1
+               order by "orderId" desc
+               limit 1`;
   const params = [userId];
   db.query(sql, params)
     .then(result => {
-      const orderInserted = result.rows[0];
-      res.json(orderInserted);
+      if (result.rowCount === 0) {
+        result.rows = { orderStatus: 'not-found' };
+        res.json(result.rows);
+      } else {
+        const orderInserted = result.rows[0];
+        res.json(orderInserted);
+      }
+
     })
     .catch(err => next(err));
 });
