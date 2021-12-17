@@ -1,4 +1,4 @@
-# final-project
+# restro-hub
 
 A full stack web application for restaurants to improve customer and restaurant experience.
 
@@ -9,7 +9,7 @@ This application is designed to improve customer and restaurant experience, it a
 
 ## Live Demo
 
-Try the application live at [https://meet-final-project.herokuapp.com/]
+Try the application live at [http://restro-hub.herokuapp.com/]
 
 ## Preview
 
@@ -76,8 +76,8 @@ Customer orders on admin side
 1. Clone the repository.
 
     ```shell
-    git clone git@github.com:meetkpatel/final-project.git
-    cd final-project
+    git clone git@github.com:meetkpatel/restro-hub.git
+    cd restro-hub
     ```
 
 2. Install all dependencies with NPM.
