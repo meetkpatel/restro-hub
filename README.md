@@ -7,6 +7,9 @@ A full stack web application for restaurants to improve customer and restaurant 
 
 This application is designed to improve customer and restaurant experience, it allows resturant to manages customers and orders and also allows customers explore resturant menu and order food.
 
+## Live Demo
+
+Try the application live at [https://meet-final-project.herokuapp.com/]
 
 ## Preview
 
@@ -37,9 +40,6 @@ Customer orders on admin side
 - CSS3
 - Heroku
 
-## Live Demo
-
-Try the application live at [https://meet-final-project.herokuapp.com/]
 
 ## Features
 
