@@ -58,7 +58,7 @@ Try the application live at [https://meet-final-project.herokuapp.com/]
 - Customer can add note to a order
 - Customer can view order status
 
-## Future Development
+## Stretch Features
 
 - Customer can view multiple orders status
 - Customer can edit food cart
@@ -66,26 +66,9 @@ Try the application live at [https://meet-final-project.herokuapp.com/]
 
 ### System Requirements
 
-- VS code or any other code editor
-- Hardware#
-
-  recommend:
-
-    1.6 GHz or faster processor
-    1 GB of RAM
-
-- Platforms#
-
-    OS X El Capitan (10.11+)
-    Windows 7 (with .NET Framework 4.5.2), 8.0, 8.1 and 10, 11 (32-bit and 64-bit)
-    Linux (Debian): Ubuntu Desktop 16.04, Debian 9
-    Linux (Red Hat): Red Hat Enterprise Linux 7, CentOS 8, Fedora 24
-
-- JavaScript ES6
-- HTML5
-- CSS3
-- Node.js 10 or higher
+- VS code or any other code editor supporting JavaScript ES6
 - NPM 6 or higher
+- Node.js 10 or higher
 
 
 ### Getting Started
