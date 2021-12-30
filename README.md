@@ -38,6 +38,7 @@ Customer orders on admin side
 - HTML5
 - CSS3
 - Heroku
+- PostgreSQL
 
 
 ## Features
@@ -68,6 +69,7 @@ Customer orders on admin side
 - VS code or any other code editor supporting JavaScript ES6
 - NPM 6 or higher
 - Node.js 10 or higher
+- PostgreSQL
 
 
 ### Getting Started
